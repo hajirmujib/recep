@@ -5,6 +5,7 @@ import 'package:mysleep/app/constants/assets_path.dart';
 import 'package:mysleep/app/constants/fonts.dart';
 import 'package:mysleep/app/constants/pallete.dart';
 import 'package:mysleep/app/routes/app_pages.dart';
+import 'package:mysleep/app/widgets/input_dropdown.dart';
 import 'package:mysleep/app/widgets/input_field.dart';
 
 import '../../../widgets/button_global.dart';
@@ -26,17 +27,17 @@ class LoginView extends GetView<LoginController> {
                 child: Column(
                   children: [
                     SizedBox(
-                      height: Get.height * 0.2,
+                      height: Get.height * 0.1,
                     ),
                     Text(
-                      "Welcome Back!",
+                      "Selamat Datang!",
                       style: FontHeader.h22.copyWith(color: Palette.black),
                     ),
                     SizedBox(
                       height: 10,
                     ),
                     Text(
-                      "Please enter your account here",
+                      "Silahkan login dengan akun anda",
                       style: FontBody.p15.copyWith(color: Palette.gray),
                     ),
                     SizedBox(
@@ -61,9 +62,8 @@ class LoginView extends GetView<LoginController> {
                               ),
                             ),
                             controller: controller.emailTxt,
-                            hintText: "Email or phone number",
+                            hintText: "Email",
                             validator: (val) {
-                              // controller.changeEmail();
                               if (val!.isEmpty) {
                                 controller.isEmailValid(false);
 
@@ -88,58 +88,77 @@ class LoginView extends GetView<LoginController> {
                         height: controller.isPassValid.value ? 56 : 79,
                         width: Get.width * 0.9,
                         child: InputField(
-                            onChange: (v) {},
-                            obscure: !controller.showPass.value,
-                            prefix: Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 25, right: 10),
-                              child: Image.asset(
-                                AssetName.iconLock,
-                                width: 24,
-                                height: 24,
-                                color: controller.isPassValid.value
-                                    ? Palette.primary
-                                    : Palette.black,
-                              ),
+                          onChange: (v) {},
+                          obscure: !controller.showPass.value,
+                          prefix: Padding(
+                            padding: const EdgeInsets.only(left: 25, right: 10),
+                            child: Image.asset(
+                              AssetName.iconLock,
+                              width: 24,
+                              height: 24,
+                              color: controller.isPassValid.value
+                                  ? Palette.primary
+                                  : Palette.black,
                             ),
-                            suffix: Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 10, right: 10),
-                              child: IconButton(
-                                  onPressed: () {
-                                    controller.changeShowPass();
-                                  },
-                                  icon: Icon(
-                                    controller.showPass.value
-                                        ? Icons.visibility_outlined
-                                        : Icons.visibility_off_outlined,
-                                    size: 24,
-                                    color: Palette.gray,
-                                  )),
-                            ),
-                            controller: controller.pasTxt,
-                            hintText: "Password",
-                            validator: (val) {
-                              // controller.changeEmail();
-                              if (val!.isEmpty) {
-                                controller.isPassValid(false);
+                          ),
+                          suffix: Padding(
+                            padding: const EdgeInsets.only(left: 10, right: 10),
+                            child: IconButton(
+                                onPressed: () {
+                                  controller.changeShowPass();
+                                },
+                                icon: Icon(
+                                  controller.showPass.value
+                                      ? Icons.visibility_outlined
+                                      : Icons.visibility_off_outlined,
+                                  size: 24,
+                                  color: Palette.gray,
+                                )),
+                          ),
+                          controller: controller.pasTxt,
+                          hintText: "Password",
+                          validator: (val) {
+                            // controller.changeEmail();
+                            if (val!.isEmpty) {
+                              controller.isPassValid(false);
 
-                                return "Please insert password";
-                              } else {
-                                controller.isPassValid(true);
-                                return null;
-                              }
-                            }),
+                              return "Please insert password";
+                            } else {
+                              controller.isPassValid(true);
+                              return null;
+                            }
+                          },
+                        ),
                       ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    SizedBox(
+                      width: Get.width * 0.9,
+                      height: 56,
+                      child: Obx(() => InputDropdown(
+                            hintText: "Jabatan",
+                            list: controller.listRole,
+                            value: controller.role.value,
+                            onChange: (e) {
+                              controller.role.value = e.toString();
+                            },
+                          )),
                     ),
                     SizedBox(
                       height: 20,
                     ),
                     Align(
                       alignment: Alignment.topRight,
-                      child: Text(
-                        "Forgot password?",
-                        style: FontBody.p15.copyWith(color: Palette.black),
+                      child: InkWell(
+                        onTap: () {
+                          Get.toNamed(Routes.FORGOT_PASS);
+                        },
+                        child: Text(
+                          "Lupa Kata Sandi?",
+                          style: FontBody.p15.copyWith(color: Palette.black),
+                        ),
                       ),
                     ),
                     SizedBox(
@@ -149,7 +168,7 @@ class LoginView extends GetView<LoginController> {
                 ).marginSymmetric(horizontal: 20),
               ),
               Positioned(
-                bottom: 100,
+                bottom: Get.height * 0.02,
                 child: ButtonSectionLogin(
                   controller: controller,
                 ),
@@ -178,47 +197,14 @@ class ButtonSectionLogin extends StatelessWidget {
         SizedBox(
           width: Get.width * 0.9,
           child: ButtonGlobal(
+            primary: Palette.black,
             onTap: () {
               controller.login();
+              
             },
             child: Text(
-              "Login",
+              "Masuk",
               style: FontHeader.h15.copyWith(color: Palette.white),
-            ),
-          ),
-        ).marginSymmetric(horizontal: 20),
-        SizedBox(
-          height: 20,
-        ),
-        Text(
-          "Or continue with",
-          style: FontBody.p15.copyWith(color: Palette.gray),
-        ),
-        SizedBox(
-          height: 20,
-        ),
-        SizedBox(
-          width: Get.width * 0.9,
-          child: ButtonGlobal(
-            primary: Palette.secondary,
-            onTap: () {
-              controller.login();
-            },
-            child: Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    AssetName.iconGoogle,
-                    width: 24,
-                    height: 24,
-                  ).marginOnly(right: 5),
-                  Text(
-                    "Google",
-                    style: FontHeader.h15.copyWith(color: Palette.white),
-                  ),
-                ],
-              ),
             ),
           ),
         ).marginSymmetric(horizontal: 20),
@@ -229,7 +215,7 @@ class ButtonSectionLogin extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              "Don’t have any account?",
+              "Belum punya akun?",
               style: FontBody.p15.copyWith(color: Palette.black),
             ).marginOnly(right: 10),
             InkWell(
@@ -237,7 +223,7 @@ class ButtonSectionLogin extends StatelessWidget {
                 Get.toNamed(Routes.REGISTER);
               },
               child: Text(
-                "Sign Up",
+                "Daftar",
                 style: FontBody.p15.copyWith(color: Palette.primary),
               ),
             ),

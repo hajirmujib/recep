@@ -18,6 +18,12 @@ class FontHeader {
     letterSpacing: 0.5,
     fontSize: 32,
   );
+  static const h37 = TextStyle(
+    fontFamily: AppFontStyle.interBold,
+    fontWeight: FontWeight.w700,
+    letterSpacing: 0.5,
+    fontSize: 37,
+  );
   static const h17 = TextStyle(
     fontFamily: AppFontStyle.interBold,
     fontWeight: FontWeight.w700,
@@ -68,6 +74,12 @@ class FontBody {
     fontWeight: FontWeight.w500,
     letterSpacing: 0.5,
     fontSize: 25,
+  );
+  static const p34 = TextStyle(
+    fontFamily: AppFontStyle.interMedium,
+    fontWeight: FontWeight.w500,
+    letterSpacing: 0.5,
+    fontSize: 34,
   );
   static const s12 = TextStyle(
     fontFamily: AppFontStyle.interMedium,
